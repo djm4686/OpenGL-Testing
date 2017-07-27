@@ -13,6 +13,10 @@
 #include <GLUT/glut.h>
 #include <GLFW/glfw3.h>
 #include "lib/linmath.h"
+#include "obj/obj_reader.h"
+
+const char test_model[] = "test_model";
+
 
 
 static const struct {
@@ -25,8 +29,17 @@ static const struct {
 		{ -0.6f,  0.4f, 0.f, 0.f, 0.f, 0.f}
 };
 
+void read_obj_file(const char * file_path){
+	FILE *obj = fopen(file_path, "r");
+	if(obj == NULL){
+		perror("ya dun goofd");
+	}
+	Obj o = read_object(obj);
+}
+
 char* read_shader(const char* shader_path){
 	FILE *f = fopen(shader_path, "r");
+
 	if(!f){
 		perror("No file or something");
 		fprintf(stderr, shader_path);
@@ -58,7 +71,7 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
 }
 
 int main(void) {
-
+	read_obj_file("src/teapot.obj");
 	GLuint vertex_buffer, vertex_shader, fragment_shader, program;
 	GLint mvp_location, vpos_location, vcol_location;
 
